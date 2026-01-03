@@ -1,0 +1,41 @@
+/* Hero image circular style */
+.VPHero .VPImage {
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+/* Custom theme colors based on hero image */
+:root {
+  --vp-c-brand-1: #9b7ed9;
+  --vp-c-brand-2: #b794f6;
+  --vp-c-brand-3: #d4b8ff;
+  --vp-c-brand-soft: rgba(155, 126, 217, 0.14);
+}
+
+.dark {
+  --vp-c-brand-1: #b794f6;
+  --vp-c-brand-2: #9b7ed9;
+  --vp-c-brand-3: #7c5dc4;
+  --vp-c-brand-soft: rgba(183, 148, 246, 0.16);
+}
+
+/* Button hover effects */
+.VPButton.brand {
+  background-color: var(--vp-c-brand-1);
+  border-color: var(--vp-c-brand-1);
+}
+
+.VPButton.brand:hover {
+  background-color: var(--vp-c-brand-2);
+  border-color: var(--vp-c-brand-2);
+}
+
+/* Feature card hover */
+.VPFeature:hover {
+  border-color: var(--vp-c-brand-1);
+}
+
+/* Sidebar active link */
+.VPSidebarItem.is-active > .item > .link > .text {
+  color: var(--vp-c-brand-1);
+}
