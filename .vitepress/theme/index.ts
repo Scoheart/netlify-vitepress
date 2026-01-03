@@ -9,10 +9,12 @@ export default {
     extends: DefaultTheme,
     Layout: Layout,
     enhanceApp({ app }) {
-        app.use(Particles, {
-            init: async engine => {
-                await loadSlim(engine)
-            }
-        })
+        if (typeof window !== 'undefined') {
+            app.use(Particles, {
+                init: async engine => {
+                    await loadSlim(engine)
+                }
+            })
+        }
     }
 }
