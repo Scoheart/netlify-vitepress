@@ -1,10 +1,10 @@
-/* Hero image circular style */
+/* Hero image circular style - no other modifications */
 .VPHero .VPImage {
   border-radius: 50%;
   overflow: hidden;
 }
 
-/* Custom theme colors based on hero image */
+/* Custom theme colors */
 :root {
   --vp-c-brand-1: #9b7ed9;
   --vp-c-brand-2: #b794f6;
@@ -23,23 +23,47 @@
   --vp-c-bg-soft: #0a0a0a;
 }
 
-/* Button hover effects */
+/* Button with subtle glow on hover */
 .VPButton.brand {
   background-color: var(--vp-c-brand-1);
   border-color: var(--vp-c-brand-1);
+  transition: all 0.3s ease;
 }
 
 .VPButton.brand:hover {
   background-color: var(--vp-c-brand-2);
   border-color: var(--vp-c-brand-2);
+  box-shadow: 0 0 15px var(--vp-c-brand-soft);
+  transform: translateY(-2px);
 }
 
-/* Feature card hover */
+/* Feature card hover effect */
+.VPFeature {
+  transition: all 0.3s ease;
+}
+
 .VPFeature:hover {
   border-color: var(--vp-c-brand-1);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 25px rgba(155, 126, 217, 0.15);
 }
 
 /* Sidebar active link */
 .VPSidebarItem.is-active > .item > .link > .text {
   color: var(--vp-c-brand-1);
+}
+
+/* Social links hover */
+.VPSocialLinks a {
+  transition: all 0.3s ease;
+}
+
+.VPSocialLinks a:hover {
+  transform: translateY(-2px);
+  filter: drop-shadow(0 0 6px var(--vp-c-brand-1));
+}
+
+/* Subtle glow on hero text in dark mode */
+.dark .VPHero .name {
+  text-shadow: 0 0 30px var(--vp-c-brand-soft);
 }
