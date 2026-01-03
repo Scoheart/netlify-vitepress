@@ -103,25 +103,23 @@ onMounted(() => {
 
 // Dark Mode - Starry Background
 // Snowflake SVGs (URL-encoded for safety and readability)
-// Classic Snowflake Shape ❄️
-const snowflakeSvg = `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.5V21.5M12 2.5L9.5 5.5M12 2.5L14.5 5.5M12 21.5L9.5 18.5M12 21.5L14.5 18.5M3.77 7.25L20.23 16.75M3.77 7.25L4.5 11.1M3.77 7.25L7.05 9.15M20.23 16.75L19.5 12.9M20.23 16.75L16.95 14.85M3.77 16.75L20.23 7.25M3.77 16.75L7.05 14.85M3.77 16.75L4.5 12.9M20.23 7.25L16.95 9.15M20.23 7.25L19.5 11.1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>`;
+// Magic Sparkle Shape ✦
+const sparkleSvg = `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z" fill="currentColor"/></svg>`;
 
 // Helper to generate Data URI with specific color
-const getSnowflake = (color) => {
-  const coloredSvg = snowflakeSvg.replace(
+const getSparkle = (color) => {
+  const coloredSvg = sparkleSvg.replace(
     "currentColor",
     encodeURIComponent(color),
   );
   return `data:image/svg+xml;utf8,${coloredSvg}`;
 };
 
-// White Snowflakes (for Dark Mode)
-const snowflake1White = getSnowflake("white");
-const snowflake2White = getSnowflake("white");
+// Pale Lavender Sparkles (for Dark Mode) - #e9d5ff
+const sparkleDark = getSparkle("#e9d5ff");
 
-// Icy Blue Snowflakes (for Light Mode) - #a0c4ff
-const snowflake1Blue = getSnowflake("#a0c4ff");
-const snowflake2Blue = getSnowflake("#a0c4ff");
+// Brand Purple Sparkles (for Light Mode) - #9b7ed9
+const sparkleLight = getSparkle("#9b7ed9");
 
 // Dark Mode - Winter Snow (White SVGs)
 const darkOptions = {
@@ -133,7 +131,7 @@ const darkOptions = {
   fpsLimit: 120,
   particles: {
     color: {
-      value: "#ffffff",
+      value: "#e9d5ff",
     },
     move: {
       direction: "bottom",
@@ -168,10 +166,7 @@ const darkOptions = {
     shape: {
       type: "image",
       options: {
-        image: [
-          { src: snowflake1White, width: 32, height: 32 },
-          { src: snowflake2White, width: 32, height: 32 },
-        ],
+        image: [{ src: sparkleDark, width: 32, height: 32 }],
       },
     },
     size: {
@@ -199,7 +194,7 @@ const lightOptions = {
   fpsLimit: 120,
   particles: {
     color: {
-      value: "#a0c4ff",
+      value: "#9b7ed9",
     },
     move: {
       direction: "bottom",
@@ -234,10 +229,7 @@ const lightOptions = {
     shape: {
       type: "image",
       options: {
-        image: [
-          { src: snowflake1Blue, width: 32, height: 32 },
-          { src: snowflake2Blue, width: 32, height: 32 },
-        ],
+        image: [{ src: sparkleLight, width: 32, height: 32 }],
       },
     },
     size: {
