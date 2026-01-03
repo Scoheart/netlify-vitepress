@@ -166,6 +166,7 @@ const lightOptions = {
       <ClientOnly>
         <vue-particles
           id="tsparticles"
+          :key="isDark"
           :options="isDark ? darkOptions : lightOptions"
           :particlesLoaded="particlesLoaded"
         />
