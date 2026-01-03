@@ -41,6 +41,15 @@ onMounted(() => {
         "max-glare": 0.2,
         scale: 1.02,
       });
+
+      // Spotlight Effect: Track mouse position
+      card.addEventListener("mousemove", (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        card.style.setProperty("--mouse-x", `${x}px`);
+        card.style.setProperty("--mouse-y", `${y}px`);
+      });
     });
 
     // Ripple Effect for "Get Started" Button

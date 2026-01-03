@@ -74,8 +74,24 @@
   z-index: 0;
   border-radius: 12px; /* Ensure generic radius */
   transition: transform 0.3s ease; /* Keep transform transition */
-  border: none !important; /* Remove default border to let gradient show */
-  background: transparent !important; /* Let ::after handle background */
+  /* Glassmorphism Base Styles */
+  border: 1px solid rgba(255, 255, 255, 0.1) !important; /* Subtle glass border */
+  background: rgba(255, 255, 255, 0.05) !important; /* Glass base layer */
+  backdrop-filter: blur(
+    20px
+  ) !important; /* Stronger blur for true glass feel */
+  -webkit-backdrop-filter: blur(20px) !important;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1); /* Glass depth */
+  border-radius: 16px; /* High-quality roundness */
+}
+
+@keyframes card-breath {
+  0% {
+    box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.2);
+  }
+  100% {
+    box-shadow: 0 4px 30px 4px rgba(155, 126, 217, 0.15); /* Subtle purple pulse */
+  }
 }
 
 /* Magic Card Effect - Gradient Border */
@@ -100,14 +116,34 @@
   transition: opacity 0.3s ease;
 }
 
-/* Background Mask (The "Card" itself) */
+/* Background Mask + Noise Texture + Spotlight Base */
 .VPFeature::after {
   content: "";
   position: absolute;
   z-index: -1;
   inset: 1px; /* The border width */
-  background: var(--vp-c-bg-soft); /* Match theme background */
   border-radius: inherit;
+
+  /* Glassmorphism Overlay: Noise + Subtle Tint */
+  background-color: transparent; /* Let base glass showing through */
+
+  /* Texture: Noise */
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+  background-size: 100px 100px;
+  opacity: 1;
+}
+
+/* Spotlight Effect Layer */
+.VPFeature:hover::after {
+  /* Combine Noise-Background with Spotlight Gradient */
+  background:
+    radial-gradient(
+      800px circle at var(--mouse-x) var(--mouse-y),
+      rgba(255, 255, 255, 0.06),
+      transparent 40%
+    ),
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E"),
+    var(--vp-c-bg-soft);
 }
 
 /* Hover State - Trigger Animation */
@@ -129,13 +165,10 @@
 }
 
 /* Add a second layer for the "Glow" blur effect */
+/* Add a second layer for the "Glow" blur effect */
 .VPFeature:hover::after {
-  /* We keep the background solid, but we could add an inner glow if needed. 
-      The current plan uses ::before for the border. 
-      Actually to get the "Glow" extending OUTSIDE, we need another element or box-shadow.
-      Let's use box-shadow on the hover state for the outer glow.
-   */
-  box-shadow: 0 0 20px rgba(155, 126, 217, 0.2);
+  /* Spotlight handles the inner look, this box-shadow adds outer depth */
+  box-shadow: 0 0 30px rgba(155, 126, 217, 0.15);
 }
 
 /* Rotating Glow Layer (Behind) - Optional for stronger effect */
