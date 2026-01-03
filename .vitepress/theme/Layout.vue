@@ -2,6 +2,7 @@
 import DefaultTheme from "vitepress/theme";
 import { useData } from "vitepress";
 import { nextTick, onMounted, ref, watch } from "vue";
+import { useRouter } from "vitepress";
 
 import VanillaTilt from "vanilla-tilt";
 import TypeIt from "typeit";
@@ -86,10 +87,6 @@ onMounted(() => {
     try {
       const typeTarget = document.querySelector(".VPHero .text");
       if (typeTarget) {
-        // Clear initial text content if needed, though TypeIt can handle strings.
-        // We will start with empty and let TypeIt type.
-        // But to avoid SEO issues or flash, we stick to replacing content or just using the element.
-        // Let's assume we want to type out dynamic roles.
         new TypeIt(typeTarget, {
           strings: [
             "Development Notes",
@@ -98,7 +95,7 @@ onMounted(() => {
             "Systematic Learner",
           ],
           speed: 50,
-          breakLines: false,
+          breakLines: false, // Ensure single line for clean look
           loop: true,
           nextStringDelay: 2000,
           deleteSpeed: 30,
@@ -107,6 +104,82 @@ onMounted(() => {
     } catch (e) {
       console.error("TypeIt initialization failed", e);
     }
+
+    // --- Ultimate Mouse Effects ---
+
+    // 1. Magnetic Ring Cursor
+    const ring = document.getElementById("mouse-ring");
+    let mouseX = 0,
+      mouseY = 0;
+    let ringX = 0,
+      ringY = 0;
+
+    document.addEventListener("mousemove", (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+
+      // 2. Magic Dust Trail (Spawn sparkles)
+      if (Math.random() < 0.3) {
+        // Density control
+        createDust(e.clientX, e.clientY);
+      }
+    });
+
+    // Ring Animation Loop (Lerp)
+    const animateRing = () => {
+      // Smooth follow
+      const dt = 1.0 - Math.pow(1.0 - 0.2, 1); // simple lerp factor
+      ringX += (mouseX - ringX) * 0.15;
+      ringY += (mouseY - ringY) * 0.15;
+
+      if (ring) {
+        ring.style.transform = `translate(${ringX - 15}px, ${ringY - 15}px)`;
+      }
+      requestAnimationFrame(animateRing);
+    };
+    animateRing();
+
+    // Magnetic / Active State for Ring
+    const interactives = document.querySelectorAll(
+      "a, button, .VPFeature, .VPSwitchAppearance",
+    );
+    interactives.forEach((el) => {
+      el.addEventListener("mouseenter", () => ring?.classList.add("active"));
+      el.addEventListener("mouseleave", () => ring?.classList.remove("active"));
+    });
+
+    // 2. Magic Dust Logic
+    const createDust = (x, y) => {
+      const dust = document.createElement("span");
+      dust.className = "magic-dust";
+      dust.style.left = `${x}px`;
+      dust.style.top = `${y}px`;
+      // Randomize movement
+      const angle = Math.random() * Math.PI * 2;
+      const velocity = 20 + Math.random() * 20;
+      const tx = Math.cos(angle) * velocity;
+      const ty = Math.sin(angle) * velocity;
+      dust.style.setProperty("--tx", `${tx}px`);
+      dust.style.setProperty("--ty", `${ty}px`);
+      // Random color (White or Purple)
+      const color = Math.random() > 0.5 ? "white" : "var(--vp-c-brand-1)";
+      dust.style.backgroundColor = color;
+
+      document.body.appendChild(dust);
+
+      // Cleanup
+      setTimeout(() => dust.remove(), 800);
+    };
+
+    // 3. Global Click Shockwave
+    document.addEventListener("click", (e) => {
+      const wave = document.createElement("span");
+      wave.className = "global-shockwave";
+      wave.style.left = `${e.clientX}px`;
+      wave.style.top = `${e.clientY}px`;
+      document.body.appendChild(wave);
+      setTimeout(() => wave.remove(), 600);
+    });
   });
 });
 
@@ -260,6 +333,11 @@ const lightOptions = {
 <template>
   <Layout>
     <template #layout-bottom>
+      <!-- Ultimate Mouse Effects Container -->
+      <div id="cursor-overlay">
+        <div id="mouse-ring"></div>
+      </div>
+
       <ClientOnly>
         <vue-particles
           id="tsparticles"
