@@ -217,7 +217,7 @@
 
 /* --- Ultimate Mouse Effects --- */
 
-/* 1. Magnetic Ring Cursor */
+/* 1. Magnetic Ring Cursor (Refined to Rotating Rune 💠) */
 #cursor-overlay {
   position: fixed;
   top: 0;
@@ -230,25 +230,61 @@
 
 #mouse-ring {
   position: absolute;
-  width: 30px;
-  height: 30px;
-  border: 2px solid rgba(155, 126, 217, 0.5); /* Brand purple semi-transparent */
-  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  /* Remove border from container, use pseudo-element for rotation */
+  border: none;
+  border-radius: 0;
   pointer-events: none;
+  mix-blend-mode: exclusion; /* Stronger blend for the rune */
   transition:
     width 0.3s ease,
-    height 0.3s ease,
-    background-color 0.3s ease,
-    border-color 0.3s ease;
-  mix-blend-mode: difference; /* Cool inversion effect */
+    height 0.3s ease;
   will-change: transform;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* The Rune Shape (4-Pointed Star ✦) */
+#mouse-ring::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  /* Use SVG for the specific 4-pointed star shape */
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z' stroke='rgba(155, 126, 217, 0.9)' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+
+  /* Remove box border */
+  border: none;
+  border-radius: 0;
+
+  animation: rune-spin 12s linear infinite;
 }
 
 #mouse-ring.active {
-  width: 50px;
-  height: 50px;
-  background-color: rgba(155, 126, 217, 0.2);
-  border-color: transparent;
+  width: 60px; /* SLightly larger for the star to look good */
+  height: 60px;
+}
+
+#mouse-ring.active::after {
+  /* Brighter stroke on active */
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z' stroke='%23e9d5ff' stroke-width='2' stroke-linejoin='round'/%3E%3C/svg%3E");
+  /* Add a subtle glow background */
+  filter: drop-shadow(0 0 5px rgba(155, 126, 217, 0.5));
+  animation: rune-spin 4s linear infinite; /* Fast spin on hover */
+}
+
+@keyframes rune-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 /* 2. Magic Dust Particles */
