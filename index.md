@@ -7,7 +7,8 @@ hero:
   text: "Development Notes"
   tagline: Systematic technology learning materials
   image:
-    src: /hero.jpeg
+    light: /hero.jpeg
+    dark: /hero-dark.png
     alt: Scoheart
   actions:
     - theme: brand
