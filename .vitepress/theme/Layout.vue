@@ -43,6 +43,36 @@ onMounted(() => {
       });
     });
 
+    // Ripple Effect for "Get Started" Button
+    try {
+      const btn = document.querySelector(".VPButton.brand");
+      if (btn) {
+        btn.addEventListener("click", function (e) {
+          const rect = btn.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+
+          const circle = document.createElement("span");
+          circle.classList.add("ripple");
+          const diameter = Math.max(rect.width, rect.height);
+          const radius = diameter / 2;
+
+          circle.style.width = circle.style.height = `${diameter}px`;
+          circle.style.left = `${x - radius}px`;
+          circle.style.top = `${y - radius}px`;
+
+          const ripple = btn.getElementsByClassName("ripple")[0];
+          if (ripple) {
+            ripple.remove();
+          }
+
+          btn.appendChild(circle);
+        });
+      }
+    } catch (e) {
+      console.error("Ripple effect init failed", e);
+    }
+
     // Typewriter Effect
     try {
       const typeTarget = document.querySelector(".VPHero .text");
