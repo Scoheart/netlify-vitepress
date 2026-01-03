@@ -4,6 +4,7 @@ import { useData } from "vitepress";
 import { nextTick, onMounted, ref, watch } from "vue";
 
 import VanillaTilt from "vanilla-tilt";
+import TypeIt from "typeit";
 
 const { Layout } = DefaultTheme;
 const { isDark } = useData();
@@ -25,8 +26,7 @@ onMounted(() => {
       VanillaTilt.init(targetElement, {
         max: 15,
         speed: 400,
-        glare: true,
-        "max-glare": 0.5,
+        glare: false, // Disabled to avoid "moon" artifact (white glare layer)
         scale: 1.05,
       });
     }
@@ -42,6 +42,32 @@ onMounted(() => {
         scale: 1.02,
       });
     });
+
+    // Typewriter Effect
+    try {
+      const typeTarget = document.querySelector(".VPHero .text");
+      if (typeTarget) {
+        // Clear initial text content if needed, though TypeIt can handle strings.
+        // We will start with empty and let TypeIt type.
+        // But to avoid SEO issues or flash, we stick to replacing content or just using the element.
+        // Let's assume we want to type out dynamic roles.
+        new TypeIt(typeTarget, {
+          strings: [
+            "Development Notes",
+            "Frontend Developer",
+            "AI Engineer",
+            "Systematic Learner",
+          ],
+          speed: 50,
+          breakLines: false,
+          loop: true,
+          nextStringDelay: 2000,
+          deleteSpeed: 30,
+        }).go();
+      }
+    } catch (e) {
+      console.error("TypeIt initialization failed", e);
+    }
   });
 });
 
