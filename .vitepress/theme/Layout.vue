@@ -119,9 +119,11 @@ onMounted(() => {
       mouseY = e.clientY;
 
       // 2. Magic Dust Trail (Spawn sparkles)
-      if (Math.random() < 0.3) {
-        // Density control
-        createDust(e.clientX, e.clientY);
+      // Increased density as requested (was 0.3)
+      if (Math.random() < 0.8) {
+        const spreadX = (Math.random() - 0.5) * 20; // Spread out slightly
+        const spreadY = (Math.random() - 0.5) * 20;
+        createDust(e.clientX + spreadX, e.clientY + spreadY);
       }
     });
 
