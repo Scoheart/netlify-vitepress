@@ -217,7 +217,7 @@
 
 /* --- Ultimate Mouse Effects --- */
 
-/* 1. Magnetic Ring Cursor (Refined to Rotating Rune 💠) */
+/* 1. Magnetic Ring Cursor (Reverted to Star Rune ✦) */
 #cursor-overlay {
   position: fixed;
   top: 0;
@@ -235,8 +235,9 @@
   /* Remove border from container, use pseudo-element for rotation */
   border: none;
   border-radius: 0;
+  background-color: transparent; /* Clear fluid bg */
   pointer-events: none;
-  mix-blend-mode: exclusion; /* Stronger blend for the rune */
+  mix-blend-mode: exclusion;
   transition:
     width 0.3s ease,
     height 0.3s ease;
@@ -244,11 +245,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  animation: none; /* Remove fluid pulse */
 }
 
 /* The Rune Shape (4-Pointed Star ✦) */
 #mouse-ring::after {
   content: "";
+  display: block;
   position: absolute;
   width: 100%;
   height: 100%;
@@ -257,17 +260,16 @@
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
-
-  /* Remove box border */
   border: none;
   border-radius: 0;
-
   animation: rune-spin 12s linear infinite;
 }
 
 #mouse-ring.active {
-  width: 60px; /* SLightly larger for the star to look good */
+  width: 60px;
   height: 60px;
+  background-color: transparent;
+  animation: none;
 }
 
 #mouse-ring.active::after {
@@ -310,29 +312,32 @@
   }
 }
 
-/* 3. Global Click Shockwave */
+/* 3. Global Click Shockwave (Enhanced Design) */
 .global-shockwave {
   position: fixed;
-  width: 20px;
-  height: 20px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
-  background-color: rgba(155, 126, 217, 0.5);
+  background-color: transparent;
+  border: 2px solid rgba(155, 126, 217, 0.8); /* Sharp outer ring */
   transform: translate(-50%, -50%);
   pointer-events: none;
-  animation: shockwave 0.6s ease-out forwards;
+  animation: shockwave-ring 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
   z-index: 9998;
 }
 
-@keyframes shockwave {
+@keyframes shockwave-ring {
   0% {
-    transform: translate(-50%, -50%) scale(0);
+    transform: translate(-50%, -50%) scale(0.5);
     opacity: 1;
-    box-shadow: 0 0 0 0 rgba(155, 126, 217, 0.6);
+    border-width: 4px;
   }
   100% {
-    transform: translate(-50%, -50%) scale(5);
+    transform: translate(-50%, -50%) scale(8);
     opacity: 0;
-    box-shadow: 0 0 20px 50px rgba(155, 126, 217, 0);
+    border-width: 0px;
+    /* Secondary echo ring via shadow */
+    box-shadow: 0 0 0 20px rgba(155, 126, 217, 0);
   }
 }
 
