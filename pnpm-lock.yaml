@@ -11,6 +11,9 @@ dependencies:
   '@tsparticles/vue3':
     specifier: ^3.0.1
     version: 3.0.1
+  vanilla-tilt:
+    specifier: ^1.8.1
+    version: 1.8.1
   vitepress:
     specifier: ^1.6.4
     version: 1.6.4(@algolia/client-search@5.46.2)(search-insights@2.17.3)
@@ -1580,6 +1583,10 @@ packages:
       '@types/unist': 3.0.3
       unist-util-is: 6.0.1
       unist-util-visit-parents: 6.0.2
+    dev: false
+
+  /vanilla-tilt@1.8.1:
+    resolution: {integrity: sha512-hPB1XUsnh+SIeVSW2beb5RnuFxz4ZNgxjGD78o52F49gS4xaoLeEMh9qrQnJrnEn/vjjBI7IlxrrXmz4tGV0Kw==}
     dev: false
 
   /vfile-message@4.0.3:

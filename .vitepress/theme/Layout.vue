@@ -3,12 +3,47 @@ import DefaultTheme from "vitepress/theme";
 import { useData } from "vitepress";
 import { nextTick, onMounted, ref, watch } from "vue";
 
+import VanillaTilt from "vanilla-tilt";
+
 const { Layout } = DefaultTheme;
 const { isDark } = useData();
 
 const particlesLoaded = async (container) => {
   console.log("Particles loaded!", container);
 };
+
+onMounted(() => {
+  nextTick(() => {
+    // Hero Image Tilt
+    // Target the container instead of the image to avoid layout shifts due to transform conflicts
+    const heroImageContainer = document.querySelector(".VPHero .image-bg");
+    // Fallback if image-bg doesn't exist (default theme structure might vary slightly)
+    const targetElement =
+      heroImageContainer || document.querySelector(".VPHero .image-src");
+
+    if (targetElement) {
+      VanillaTilt.init(targetElement, {
+        max: 15,
+        speed: 400,
+        glare: true,
+        "max-glare": 0.5,
+        scale: 1.05,
+      });
+    }
+
+    // Feature Cards Tilt
+    const features = document.querySelectorAll(".VPFeature");
+    features.forEach((card) => {
+      VanillaTilt.init(card, {
+        max: 8,
+        speed: 400,
+        glare: true,
+        "max-glare": 0.2,
+        scale: 1.02,
+      });
+    });
+  });
+});
 
 // Dark Mode - Starry Background
 const darkOptions = {
