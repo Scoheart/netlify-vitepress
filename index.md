@@ -19,7 +19,7 @@ hero:
       link: https://github.com/scoheart
 
 features:
-  - title: 408
+  - title: "408"
     details: Computer Science Fundamentals
     link: /408/
   - title: AI

@@ -72,6 +72,28 @@ onMounted(() => {
 });
 
 // Dark Mode - Starry Background
+// Snowflake SVGs (URL-encoded for safety and readability)
+// Classic Snowflake Shape ❄️
+const snowflakeSvg = `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.5V21.5M12 2.5L9.5 5.5M12 2.5L14.5 5.5M12 21.5L9.5 18.5M12 21.5L14.5 18.5M3.77 7.25L20.23 16.75M3.77 7.25L4.5 11.1M3.77 7.25L7.05 9.15M20.23 16.75L19.5 12.9M20.23 16.75L16.95 14.85M3.77 16.75L20.23 7.25M3.77 16.75L7.05 14.85M3.77 16.75L4.5 12.9M20.23 7.25L16.95 9.15M20.23 7.25L19.5 11.1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>`;
+
+// Helper to generate Data URI with specific color
+const getSnowflake = (color) => {
+  const coloredSvg = snowflakeSvg.replace(
+    "currentColor",
+    encodeURIComponent(color),
+  );
+  return `data:image/svg+xml;utf8,${coloredSvg}`;
+};
+
+// White Snowflakes (for Dark Mode)
+const snowflake1White = getSnowflake("white");
+const snowflake2White = getSnowflake("white");
+
+// Icy Blue Snowflakes (for Light Mode) - #a0c4ff
+const snowflake1Blue = getSnowflake("#a0c4ff");
+const snowflake2Blue = getSnowflake("#a0c4ff");
+
+// Dark Mode - Winter Snow (White SVGs)
 const darkOptions = {
   background: {
     color: {
@@ -79,123 +101,13 @@ const darkOptions = {
     },
   },
   fpsLimit: 120,
-  interactivity: {
-    events: {
-      onClick: {
-        enable: true,
-        mode: "push",
-      },
-      onHover: {
-        enable: true,
-        mode: "repulse",
-      },
-      resize: true,
-    },
-    modes: {
-      push: {
-        quantity: 4,
-      },
-      repulse: {
-        distance: 200,
-        duration: 0.4,
-      },
-    },
-  },
   particles: {
     color: {
       value: "#ffffff",
     },
-    links: {
-      color: "#ffffff",
-      distance: 150,
-      enable: false, // No links for stars
-      opacity: 0.5,
-      width: 1,
-    },
     move: {
-      direction: "none",
+      direction: "bottom",
       enable: true,
-      outModes: {
-        default: "out",
-      },
-      random: false,
-      speed: 0.5, // Slow movement for stars
-      straight: false,
-    },
-    number: {
-      density: {
-        enable: true,
-        area: 800,
-      },
-      value: 100,
-    },
-    opacity: {
-      value: { min: 0.1, max: 0.8 },
-      animation: {
-        enable: true,
-        speed: 1,
-        sync: false,
-      },
-    },
-    shape: {
-      type: "circle",
-    },
-    size: {
-      value: { min: 1, max: 3 },
-    },
-  },
-  detectRetina: true,
-};
-
-// Light Mode - Elegant Geometric Network
-const lightOptions = {
-  background: {
-    color: {
-      value: "#ffffff",
-    },
-  },
-  fpsLimit: 120,
-  interactivity: {
-    events: {
-      onClick: {
-        enable: true,
-        mode: "push",
-      },
-      onHover: {
-        enable: true,
-        mode: "grab", // Grab effect for network
-      },
-      resize: true,
-    },
-    modes: {
-      grab: {
-        distance: 140,
-        links: {
-          opacity: 1,
-        },
-      },
-      push: {
-        quantity: 4,
-      },
-    },
-  },
-  particles: {
-    color: {
-      value: "#cccccc", // Subtle grey for nodes
-    },
-    links: {
-      color: "#cccccc", // Subtle grey for links
-      distance: 150,
-      enable: true,
-      opacity: 0.4,
-      width: 1,
-    },
-    move: {
-      direction: "none",
-      enable: true,
-      outModes: {
-        default: "out",
-      },
       random: false,
       speed: 1.5,
       straight: false,
@@ -205,16 +117,109 @@ const lightOptions = {
         enable: true,
         area: 800,
       },
-      value: 60, // Fewer particles for cleaner look
+      value: 40,
     },
     opacity: {
-      value: 0.5,
+      value: { min: 0.4, max: 0.8 },
+      animation: {
+        enable: true,
+        speed: 0.5,
+        sync: false,
+      },
+    },
+    rotate: {
+      value: { min: 0, max: 360 },
+      direction: "random",
+      animation: {
+        enable: true,
+        speed: 2,
+      },
     },
     shape: {
-      type: "circle",
+      type: "image",
+      options: {
+        image: [
+          { src: snowflake1White, width: 32, height: 32 },
+          { src: snowflake2White, width: 32, height: 32 },
+        ],
+      },
     },
     size: {
-      value: { min: 1, max: 4 },
+      value: { min: 5, max: 15 },
+    },
+    wobble: {
+      enable: true,
+      distance: 10,
+      speed: 5,
+    },
+    zIndex: {
+      value: 1,
+    },
+  },
+  detectRetina: true,
+};
+
+// Light Mode - Winter Snow (Icy Blue)
+const lightOptions = {
+  background: {
+    color: {
+      value: "transparent",
+    },
+  },
+  fpsLimit: 120,
+  particles: {
+    color: {
+      value: "#a0c4ff",
+    },
+    move: {
+      direction: "bottom",
+      enable: true,
+      random: false,
+      speed: 1.5,
+      straight: false,
+    },
+    number: {
+      density: {
+        enable: true,
+        area: 800,
+      },
+      value: 40,
+    },
+    opacity: {
+      value: { min: 0.6, max: 1 },
+      animation: {
+        enable: true,
+        speed: 0.5,
+        sync: false,
+      },
+    },
+    rotate: {
+      value: { min: 0, max: 360 },
+      direction: "random",
+      animation: {
+        enable: true,
+        speed: 2,
+      },
+    },
+    shape: {
+      type: "image",
+      options: {
+        image: [
+          { src: snowflake1Blue, width: 32, height: 32 },
+          { src: snowflake2Blue, width: 32, height: 32 },
+        ],
+      },
+    },
+    size: {
+      value: { min: 5, max: 15 },
+    },
+    wobble: {
+      enable: true,
+      distance: 10,
+      speed: 5,
+    },
+    zIndex: {
+      value: 1,
     },
   },
   detectRetina: true,

@@ -39,14 +39,88 @@
 
 /* Feature card hover effect */
 .VPFeature {
-  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden; /* Clip the gradient that spills out */
+  z-index: 0;
+  border-radius: 12px; /* Ensure generic radius */
+  transition: transform 0.3s ease; /* Keep transform transition */
+  border: none !important; /* Remove default border to let gradient show */
+  background: transparent !important; /* Let ::after handle background */
 }
 
-.VPFeature:hover {
-  border-color: var(--vp-c-brand-1);
-  transform: translateY(-4px);
-  box-shadow: 0 8px 25px rgba(155, 126, 217, 0.15);
+/* Magic Card Effect - Gradient Border */
+@property --rotate {
+  syntax: "<angle>";
+  initial-value: 132deg;
+  inherits: false;
 }
+
+.VPFeature::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  width: 104%; /* Slightly larger to ensure coverage */
+  height: 104%;
+  top: -2%;
+  left: -2%;
+  background: transparent;
+  border-radius: inherit;
+  /* Default hidden, show on hover */
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+/* Background Mask (The "Card" itself) */
+.VPFeature::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 1px; /* The border width */
+  background: var(--vp-c-bg-soft); /* Match theme background */
+  border-radius: inherit;
+}
+
+/* Hover State - Trigger Animation */
+.VPFeature:hover {
+  transform: translateY(-4px); /* Keep lift effect */
+  /* Remove old border/shadow interactions as we use glowing border now */
+}
+
+.VPFeature:hover::before {
+  opacity: 1;
+  background-image: linear-gradient(
+    var(--rotate),
+    var(--vp-c-brand-1),
+    var(--vp-c-brand-2) 43%,
+    transparent 50%,
+    transparent 100%
+  );
+  animation: spin 3s linear infinite;
+}
+
+/* Add a second layer for the "Glow" blur effect */
+.VPFeature:hover::after {
+  /* We keep the background solid, but we could add an inner glow if needed. 
+      The current plan uses ::before for the border. 
+      Actually to get the "Glow" extending OUTSIDE, we need another element or box-shadow.
+      Let's use box-shadow on the hover state for the outer glow.
+   */
+  box-shadow: 0 0 20px rgba(155, 126, 217, 0.2);
+}
+
+/* Rotating Glow Layer (Behind) - Optional for stronger effect */
+/* We can add a pseudo-element to ..VPFeature that is blurred and behind everything */
+
+@keyframes spin {
+  0% {
+    --rotate: 0deg;
+  }
+  100% {
+    --rotate: 360deg;
+  }
+}
+
+/* Removed old hover styles */
 
 /* Sidebar active link */
 .VPSidebarItem.is-active > .item > .link > .text {
