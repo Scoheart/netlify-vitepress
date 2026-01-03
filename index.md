@@ -4,27 +4,39 @@ layout: home
 
 hero:
   name: "Scoheart"
-  text: "Front-End Development Notes"
-  tagline: Systematic front-end technology learning materials
+  text: "Development Notes"
+  tagline: Systematic technology learning materials
   image:
     src: /hero.jpeg
     alt: Scoheart
   actions:
     - theme: brand
       text: Get Started
-      link: /front-end/
+      link: /frontend/
     - theme: alt
       text: GitHub
       link: https://github.com/scoheart
 
 features:
-  - title: HTML
-    details: HTML fundamentals and DOM operations
-    link: /front-end/01-HTML/
-  - title: CSS
-    details: CSS styling, layouts, preprocessors and modularization
-    link: /front-end/02-CSS/
-  - title: JavaScript
-    details: JavaScript language core, runtime and ecosystem
-    link: /front-end/03-JavaScript/
+  - title: 408
+    details: Computer Science Fundamentals
+    link: /408/
+  - title: AI
+    details: Artificial Intelligence and Machine Learning
+    link: /ai/
+  - title: Frontend
+    details: HTML, CSS, JavaScript and modern frontend ecosystem
+    link: /frontend/
+  - title: Backend
+    details: Server-side development and backend technologies
+    link: /backend/
+  - title: Desktop
+    details: Desktop application development
+    link: /desktop/
+  - title: Mobile
+    details: Mobile application development
+    link: /mobile/
+  - title: Embedded
+    details: Embedded systems development
+    link: /embedded/
 ---
