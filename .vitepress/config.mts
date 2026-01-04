@@ -14,7 +14,8 @@ export default defineConfig({
       { text: 'Backend', link: '/backend/' },
       { text: 'Desktop', link: '/desktop/' },
       { text: 'Mobile', link: '/mobile/' },
-      { text: 'Embedded', link: '/embedded/' }
+      { text: 'Embedded', link: '/embedded/' },
+      { text: 'Daily', link: '/daily/' }
     ],
 
     sidebar: {
@@ -113,6 +114,21 @@ export default defineConfig({
           text: 'Embedded',
           items: [
             { text: 'Overview', link: '/embedded/' }
+          ]
+        }
+      ],
+      '/daily/': [
+        {
+          text: 'Daily Insights',
+          items: [
+            { text: 'Overview', link: '/daily/' },
+            {
+              text: '2026',
+              collapsed: false,
+              items: [
+                { text: '01-04', link: '/daily/2026/01-04' }
+              ]
+            }
           ]
         }
       ]
