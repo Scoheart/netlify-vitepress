@@ -81,7 +81,8 @@ export default defineConfig({
         {
           text: 'AI',
           items: [
-            { text: 'Overview', link: '/ai/' }
+            { text: 'Overview', link: '/ai/' },
+            { text: 'MCP', link: '/ai/mcp' }
           ]
         }
       ],
