@@ -1,6 +1,7 @@
 // https://vitepress.dev/guide/custom-theme
 import DefaultTheme from 'vitepress/theme'
 import './custom.css'
+import 'virtual:group-icons.css'
 import Layout from './Layout.vue'
 import Particles from '@tsparticles/vue3'
 import { loadSlim } from '@tsparticles/slim'

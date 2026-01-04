@@ -1,9 +1,20 @@
 import { defineConfig } from 'vitepress'
+import { groupIconMdPlugin, groupIconVitePlugin } from 'vitepress-plugin-group-icons'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   title: "Scoheart's Notes",
   description: "Scoheart's Development Notes",
+  markdown: {
+    config(md) {
+      md.use(groupIconMdPlugin)
+    }
+  },
+  vite: {
+    plugins: [
+      groupIconVitePlugin()
+    ]
+  },
   themeConfig: {
     // Show more heading levels in the right outline
     outline: [2, 5],

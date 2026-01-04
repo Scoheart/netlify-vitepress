@@ -18,6 +18,7 @@
     "canvas-confetti": "^1.9.4",
     "typeit": "^8.8.7",
     "vanilla-tilt": "^1.8.1",
-    "vitepress": "^1.6.4"
+    "vitepress": "^1.6.4",
+    "vitepress-plugin-group-icons": "^1.6.5"
   }
 }
