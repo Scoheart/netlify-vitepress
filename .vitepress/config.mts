@@ -5,6 +5,8 @@ export default defineConfig({
   title: "Scoheart's Notes",
   description: "Scoheart's Development Notes",
   themeConfig: {
+    // Show more heading levels in the right outline
+    outline: [2, 5],
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: 'Home', link: '/' },

@@ -116,6 +116,7 @@ claude mcp remove your-server
 ```
 
 支持三种作用域：
+
 - `user`: 跨多个项目的个人工具
 - `project`: 团队共享的项目特定工具
 - `local`: 个人实验性配置或敏感凭证
@@ -147,6 +148,7 @@ claude mcp remove your-server
 ```
 
 **注意事项**：
+
 - Cursor 默认只会向 Agent 发送前 40 个工具
 - 支持 OAuth 认证
 - 可以设置 auto-run 允许 Agent 自动运行 MCP 工具
@@ -220,6 +222,7 @@ API_KEY = "your-api-key"
 Codex 会在会话启动时自动启动配置的 MCP 服务器，支持 STDIO 和 streaming HTTP 传输方式。
 
 **常见 MCP 服务器**：
+
 - Context7：访问最新开发者文档
 - Figma Local/Remote：访问 Figma 设计
 - Playwright：控制和检查浏览器
@@ -255,6 +258,7 @@ Codex 会在会话启动时自动启动配置的 MCP 服务器，支持 STDIO �
 **使用预构建的 MCP 服务器**
 
 Antigravity 提供了 MCP Store，可以直接安装预构建的服务器：
+
 - Firebase
 - AlloyDB for PostgreSQL
 - BigQuery
@@ -274,6 +278,7 @@ Antigravity 提供了 MCP Store，可以直接安装预构建的服务器：
 - `enabled`/`disabled`: (可选) 控制是否启用该服务器
 
 **传输方式**：
+
 - **STDIO**: 本地开发，通过标准输入输出通信
 - **SSE (Server-Sent Events)**: 分布式团队，基于 HTTP 的单向流
 - **HTTP**: 支持双向通信的 HTTP 传输
