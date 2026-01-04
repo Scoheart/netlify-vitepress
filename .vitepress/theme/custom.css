@@ -25,6 +25,9 @@
   --vp-code-block-bg: #1a1a1a;
 }
 
+/* --- Code Copy Button Animation (Confetti Only) --- */
+/* Ripple and Particle effects removed */
+
 /* Button with subtle glow on hover */
 .VPButton.brand {
   background-color: var(--vp-c-brand-1);
@@ -299,7 +302,7 @@
   background-color: var(--vp-c-brand-1);
   border-radius: 50%;
   pointer-events: none;
-  animation: dust-fall 0.8s forwards;
+  animation: dust-fall 2.5s forwards;
   z-index: 9998;
 }
 

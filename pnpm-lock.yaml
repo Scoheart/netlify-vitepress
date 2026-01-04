@@ -11,6 +11,9 @@ dependencies:
   '@tsparticles/vue3':
     specifier: ^3.0.1
     version: 3.0.1
+  canvas-confetti:
+    specifier: ^1.9.4
+    version: 1.9.4
   typeit:
     specifier: ^8.8.7
     version: 8.8.7
@@ -1223,6 +1226,10 @@ packages:
 
   /birpc@2.9.0:
     resolution: {integrity: sha512-KrayHS5pBi69Xi9JmvoqrIgYGDkD6mcSe/i6YKi3w5kekCLzrX4+nawcXqrj2tIp50Kw/mT/s3p+GVK0A0sKxw==}
+    dev: false
+
+  /canvas-confetti@1.9.4:
+    resolution: {integrity: sha512-yxQbJkAVrFXWNbTUjPqjF7G+g6pDotOUHGbkZq2NELZUMDpiJ85rIEazVb8GTaAptNW2miJAXbs1BtioA251Pw==}
     dev: false
 
   /ccount@2.0.1:

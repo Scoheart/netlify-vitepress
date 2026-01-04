@@ -6,6 +6,7 @@ import { useRouter } from "vitepress";
 
 import VanillaTilt from "vanilla-tilt";
 import TypeIt from "typeit";
+import confetti from "canvas-confetti";
 
 const { Layout } = DefaultTheme;
 const { isDark } = useData();
@@ -119,12 +120,9 @@ onMounted(() => {
       mouseY = e.clientY;
 
       // 2. Magic Dust Trail (Spawn sparkles)
-      // Increased density as requested (was 0.3)
-      if (Math.random() < 0.8) {
-        const spreadX = (Math.random() - 0.5) * 20; // Spread out slightly
-        const spreadY = (Math.random() - 0.5) * 20;
-        createDust(e.clientX + spreadX, e.clientY + spreadY);
-      }
+      const spreadX = (Math.random() - 0.5) * 20;
+      const spreadY = (Math.random() - 0.5) * 20;
+      createDust(e.clientX + spreadX, e.clientY + spreadY);
     });
 
     // Ring Animation Loop (Lerp)
@@ -169,8 +167,8 @@ onMounted(() => {
 
       document.body.appendChild(dust);
 
-      // Cleanup
-      setTimeout(() => dust.remove(), 800);
+      // Cleanup - 2.5s fade
+      setTimeout(() => dust.remove(), 2500);
     };
 
     // 3. Global Click Shockwave
@@ -181,6 +179,26 @@ onMounted(() => {
       wave.style.top = `${e.clientY}px`;
       document.body.appendChild(wave);
       setTimeout(() => wave.remove(), 600);
+    });
+
+    // 4. Copy Button Animation (Confetti + Ripple + Particles)
+    document.addEventListener("click", (e) => {
+      const copyBtn = e.target.closest("button.copy");
+      if (!copyBtn) return;
+
+      const rect = copyBtn.getBoundingClientRect();
+      const x = rect.left + rect.width / 2;
+      const y = rect.top + rect.height / 2;
+
+      // A. Confetti Burst
+      confetti({
+        particleCount: 50,
+        spread: 60,
+        origin: { x: x / window.innerWidth, y: y / window.innerHeight },
+        colors: ["#9b7ed9", "#b794f6", "#d4b8ff", "#ffffff"],
+        gravity: 1.2,
+        scalar: 0.8,
+      });
     });
   });
 });
