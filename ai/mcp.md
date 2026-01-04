@@ -7,6 +7,24 @@
 
 ## 实现一个简单 MCP server
 
+安装依赖
+
+::: code-group
+
+```bash [npm]
+npm install @modelcontextprotocol/sdk
+```
+
+```bash [pnpm]
+pnpm add @modelcontextprotocol/sdk
+```
+
+```bash [bun]
+bun add @modelcontextprotocol/sdk
+```
+
+:::
+
 ```js
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
