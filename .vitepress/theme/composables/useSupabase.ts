@@ -3,13 +3,55 @@ import { ref } from 'vue'
 
 let supabaseClient: SupabaseClient | null = null
 
-export interface TodoRecord {
+// 基础记录接口
+export interface BaseDailyRecord {
   id: string
-  text: string
+  type: 'question' | 'todo' | 'insight' | 'note'
+  content: string
+  date: string // YYYY-MM-DD 格式
+  created_at: string
+}
+
+// Question 类型记录
+export interface QuestionRecord extends BaseDailyRecord {
+  type: 'question'
+  answer?: string
+}
+
+// Todo 类型记录
+export interface TodoRecord extends BaseDailyRecord {
+  type: 'todo'
   completed: boolean
   priority: 'low' | 'medium' | 'high'
+}
+
+// Insight 类型记录
+export interface InsightRecord extends BaseDailyRecord {
+  type: 'insight'
+  tags?: string[]
+}
+
+// Note 类型记录
+export interface NoteRecord extends BaseDailyRecord {
+  type: 'note'
+}
+
+// 联合类型
+export type DailyRecord = QuestionRecord | TodoRecord | InsightRecord | NoteRecord
+
+// 数据库记录类型（包含所有可选字段）
+export interface DailyRecordDB {
+  id: string
+  type: 'question' | 'todo' | 'insight' | 'note'
+  content: string
+  date: string
   created_at: string
-  date: string // 用于分组 todos（YYYY-MM-DD 格式）
+  // 可选字段
+  completed?: boolean
+  priority?: 'low' | 'medium' | 'high'
+  answer?: string
+  tags?: string[]
+  metadata?: Record<string, any>
 }
 
 export function useSupabase() {
@@ -79,8 +121,11 @@ export function useSupabase() {
     initSupabase()
   }
 
-  // 获取某一天的所有 todos
-  const getTodos = async (date: string): Promise<TodoRecord[]> => {
+  // 获取某一天的所有记录（可按类型筛选）
+  const getRecords = async (
+    date: string,
+    type?: 'question' | 'todo' | 'insight' | 'note'
+  ): Promise<DailyRecord[]> => {
     const client = initSupabase()
     if (!client) {
       error.value = 'Supabase 未配置'
@@ -91,17 +136,22 @@ export function useSupabase() {
     error.value = null
 
     try {
-      const { data, error: fetchError } = await client
-        .from('todos')
+      let query = client
+        .from('daily_records')
         .select('*')
         .eq('date', date)
-        .order('created_at', { ascending: false })
+
+      if (type) {
+        query = query.eq('type', type)
+      }
+
+      const { data, error: fetchError } = await query.order('created_at', { ascending: false })
 
       if (fetchError) throw fetchError
 
-      return data || []
+      return (data || []) as DailyRecord[]
     } catch (e: any) {
-      error.value = e.message || '获取任务失败'
+      error.value = e.message || '获取记录失败'
       console.error(e)
       return []
     } finally {
@@ -109,8 +159,8 @@ export function useSupabase() {
     }
   }
 
-  // 创建新 todo
-  const createTodo = async (todo: Omit<TodoRecord, 'created_at'>): Promise<TodoRecord | null> => {
+  // 创建新记录
+  const createRecord = async (record: Omit<DailyRecordDB, 'created_at'>): Promise<DailyRecord | null> => {
     const client = initSupabase()
     if (!client) {
       error.value = 'Supabase 未配置'
@@ -122,16 +172,16 @@ export function useSupabase() {
 
     try {
       const { data, error: insertError } = await client
-        .from('todos')
-        .insert([todo])
+        .from('daily_records')
+        .insert([record])
         .select()
         .single()
 
       if (insertError) throw insertError
 
-      return data
+      return data as DailyRecord
     } catch (e: any) {
-      error.value = e.message || '创建任务失败'
+      error.value = e.message || '创建记录失败'
       console.error(e)
       return null
     } finally {
@@ -139,8 +189,8 @@ export function useSupabase() {
     }
   }
 
-  // 更新 todo
-  const updateTodo = async (id: string, updates: Partial<TodoRecord>): Promise<boolean> => {
+  // 更新记录
+  const updateRecord = async (id: string, updates: Partial<DailyRecordDB>): Promise<boolean> => {
     const client = initSupabase()
     if (!client) {
       error.value = 'Supabase 未配置'
@@ -152,7 +202,7 @@ export function useSupabase() {
 
     try {
       const { error: updateError } = await client
-        .from('todos')
+        .from('daily_records')
         .update(updates)
         .eq('id', id)
 
@@ -160,7 +210,7 @@ export function useSupabase() {
 
       return true
     } catch (e: any) {
-      error.value = e.message || '更新任务失败'
+      error.value = e.message || '更新记录失败'
       console.error(e)
       return false
     } finally {
@@ -168,8 +218,8 @@ export function useSupabase() {
     }
   }
 
-  // 删除 todo
-  const deleteTodo = async (id: string): Promise<boolean> => {
+  // 删除记录
+  const deleteRecord = async (id: string): Promise<boolean> => {
     const client = initSupabase()
     if (!client) {
       error.value = 'Supabase 未配置'
@@ -181,7 +231,7 @@ export function useSupabase() {
 
     try {
       const { error: deleteError } = await client
-        .from('todos')
+        .from('daily_records')
         .delete()
         .eq('id', id)
 
@@ -189,7 +239,7 @@ export function useSupabase() {
 
       return true
     } catch (e: any) {
-      error.value = e.message || '删除任务失败'
+      error.value = e.message || '删除记录失败'
       console.error(e)
       return false
     } finally {
@@ -197,25 +247,29 @@ export function useSupabase() {
     }
   }
 
-  // 订阅 todos 变化（实时同步）
-  const subscribeTodos = (date: string, callback: (todos: TodoRecord[]) => void) => {
+  // 订阅记录变化（实时同步）
+  const subscribeRecords = (
+    date: string,
+    callback: (records: DailyRecord[]) => void,
+    type?: 'question' | 'todo' | 'insight' | 'note'
+  ) => {
     const client = initSupabase()
     if (!client) return null
 
     const channel = client
-      .channel(`todos:${date}`)
+      .channel(`daily_records:${date}${type ? ':' + type : ''}`)
       .on(
         'postgres_changes',
         {
           event: '*',
           schema: 'public',
-          table: 'todos',
+          table: 'daily_records',
           filter: `date=eq.${date}`
         },
         async () => {
           // 当有变化时，重新获取数据
-          const todos = await getTodos(date)
-          callback(todos)
+          const records = await getRecords(date, type)
+          callback(records)
         }
       )
       .subscribe()
@@ -231,10 +285,10 @@ export function useSupabase() {
     isLoading,
     error,
     saveConfig,
-    getTodos,
-    createTodo,
-    updateTodo,
-    deleteTodo,
-    subscribeTodos
+    getRecords,
+    createRecord,
+    updateRecord,
+    deleteRecord,
+    subscribeRecords
   }
 }
