@@ -140,6 +140,7 @@ export default defineConfig({
               text: '2026',
               collapsed: false,
               items: [
+                { text: '01-09', link: '/daily/2026/01-09' },
                 { text: '01-04', link: '/daily/2026/01-04' }
               ]
             }

@@ -5,6 +5,7 @@ import 'virtual:group-icons.css'
 import Layout from './Layout.vue'
 import Particles from '@tsparticles/vue3'
 import { loadSlim } from '@tsparticles/slim'
+import TodoList from './components/TodoList.vue'
 
 export default {
     extends: DefaultTheme,
@@ -17,5 +18,6 @@ export default {
                 }
             })
         }
+        app.component('TodoList', TodoList)
     }
 }
